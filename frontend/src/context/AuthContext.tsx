@@ -58,8 +58,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components -- hook is intentionally co-located with its provider
 /** Consume the auth context. Throws if called outside of `AuthProvider`. */
+// eslint-disable-next-line react-refresh/only-export-components -- hook is intentionally co-located with its provider
 export function useAuth() {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuth must be used within AuthProvider')
