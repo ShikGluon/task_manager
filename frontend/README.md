@@ -59,7 +59,7 @@ Two interceptors are attached at startup:
 `Bearer` token on every request. If no token is stored (unauthenticated), the header is
 simply omitted.
 
-**Response interceptor** — when the API returns `401` *and* a token is already in
+**Response interceptor** — when the API returns `401` _and_ a token is already in
 `localStorage`, it clears the stored credentials and redirects to `/login`. The "token
 already present" check is intentional: it prevents a failed login attempt from triggering
 a redirect loop instead of displaying an error toast.
@@ -92,18 +92,18 @@ session silently.
 The reducer is exported separately from the hook so it can be unit-tested in isolation
 without mounting a component. It handles six action types:
 
-| Action | Effect |
-|--------|--------|
-| `LOADING` | Sets `loading: true`, clears error |
-| `LOADED` | Replaces the task array, sets `loading: false` |
-| `ERROR` | Sets the error message, sets `loading: false` |
-| `ADD` | Prepends the new task (matches server sort: newest first) |
-| `UPDATE` | Replaces the task with a matching `id` in place |
-| `DELETE` | Removes the task with the matching `id` |
+| Action    | Effect                                                    |
+| --------- | --------------------------------------------------------- |
+| `LOADING` | Sets `loading: true`, clears error                        |
+| `LOADED`  | Replaces the task array, sets `loading: false`            |
+| `ERROR`   | Sets the error message, sets `loading: false`             |
+| `ADD`     | Prepends the new task (matches server sort: newest first) |
+| `UPDATE`  | Replaces the task with a matching `id` in place           |
+| `DELETE`  | Removes the task with the matching `id`                   |
 
 ### Optimistic updates
 
-Both `toggleTask` and `deleteTask` apply changes to local state *before* the API call
+Both `toggleTask` and `deleteTask` apply changes to local state _before_ the API call
 resolves:
 
 - **`toggleTask`** — immediately dispatches `UPDATE` with the flipped status, then awaits
