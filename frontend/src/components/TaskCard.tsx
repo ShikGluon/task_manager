@@ -12,6 +12,10 @@ interface Props {
   onDelete: (id: string) => void
 }
 
+/**
+ * Displays a single task with its title, priority badge, optional description, and dates.
+ * The card border turns red when the task is overdue (past due date and not yet completed).
+ */
 export function TaskCard({ task, onToggle, onDelete }: Props) {
   const isCompleted = task.status === 'Completed'
   const isOverdue = task.dueDate && !isCompleted && new Date(task.dueDate) < new Date()

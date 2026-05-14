@@ -1,5 +1,13 @@
 import axios from 'axios'
 
+/**
+ * Pre-configured Axios instance for all API requests.
+ *
+ * Request interceptor — attaches the JWT from localStorage as a Bearer token.
+ * Response interceptor — on 401, clears stored credentials and redirects to /login,
+ * but only when a token is already present so that a failed login attempt shows an
+ * error toast instead of navigating away.
+ */
 const client = axios.create({
   baseURL: '/api',
 })

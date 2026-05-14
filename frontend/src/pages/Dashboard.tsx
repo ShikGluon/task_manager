@@ -9,6 +9,7 @@ import { TaskSkeleton } from '../components/TaskSkeleton'
 const STATUS_FILTERS = ['All', 'Pending', 'Completed']
 const PRIORITIES = ['Low', 'Medium', 'High']
 
+/** Main authenticated page — task list with filter/sort controls and an inline create form. */
 export function Dashboard() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()

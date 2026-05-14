@@ -1,22 +1,29 @@
 import { useReducer, useEffect, useCallback } from 'react'
 import client from '../api/client'
 
+/** A task record as returned by the API. */
 export interface Task {
   id: string
   title: string
   description?: string
   status: 'Pending' | 'Completed'
   priority: 'Low' | 'Medium' | 'High'
+  /** ISO 8601 date string; absent if no due date was set. */
   dueDate?: string
   createdAt: string
 }
 
+/** Shape of the `useReducer` state managed by `useTasks`. */
 export interface State {
   tasks: Task[]
   loading: boolean
   error: string | null
 }
 
+/**
+ * All actions that can mutate task state.
+ * `DELETE` carries the task id; all others carry a full Task or task array.
+ */
 export type Action =
   | { type: 'LOADING' }
   | { type: 'LOADED'; payload: Task[] }
@@ -25,6 +32,7 @@ export type Action =
   | { type: 'UPDATE'; payload: Task }
   | { type: 'DELETE'; payload: string }
 
+/** Pure reducer for task state; exported separately so it can be tested in isolation. */
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'LOADING':
@@ -47,6 +55,15 @@ export function reducer(state: State, action: Action): State {
   }
 }
 
+/**
+ * Fetches tasks from the API and exposes optimistic CRUD mutations.
+ *
+ * `toggleTask` applies the status flip immediately and rolls back on failure.
+ * `deleteTask` removes the item immediately and re-fetches on failure to restore state.
+ *
+ * @param statusFilter - `'Pending'` | `'Completed'` to filter; omit or pass `'All'` for all tasks
+ * @param sort         - `'dueDate'` to sort ascending by due date; omit for default (newest first)
+ */
 export function useTasks(statusFilter?: string, sort?: string) {
   const [state, dispatch] = useReducer(reducer, { tasks: [], loading: false, error: null })
 

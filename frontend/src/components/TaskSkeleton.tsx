@@ -1,3 +1,4 @@
+/** Animated placeholder card shown while the task list is loading. */
 export function TaskSkeleton() {
   return (
     <div className="bg-gray-900 rounded-xl border border-gray-800 p-5 animate-pulse">

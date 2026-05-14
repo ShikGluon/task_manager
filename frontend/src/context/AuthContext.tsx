@@ -5,6 +5,7 @@ interface AuthUser {
   email: string
 }
 
+/** Values exposed on the auth context. */
 interface AuthContextValue {
   user: AuthUser | null
   login: (email: string, password: string) => Promise<void>
@@ -14,6 +15,10 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+/**
+ * Provides authentication state and actions to the component tree.
+ * On mount, pings `/auth/me` to validate any stored token and logs out silently on failure.
+ */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(() => {
     const stored = localStorage.getItem('user')
@@ -54,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components -- hook is intentionally co-located with its provider
+/** Consume the auth context. Throws if called outside of `AuthProvider`. */
 export function useAuth() {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuth must be used within AuthProvider')
